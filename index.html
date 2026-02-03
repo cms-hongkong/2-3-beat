@@ -89,7 +89,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             position: relative;
             overflow: hidden;
-            min-height: 600px;
+            min-height: 650px;
             display: flex;
             flex-direction: column;
         }
@@ -101,48 +101,6 @@
             text-align: center;
             border-bottom: 2px solid #4ecdc4;
             padding-bottom: 10px;
-        }
-        
-        .beat-selector {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .beat-btn {
-            background-color: #2a2a5a;
-            border: none;
-            border-radius: 12px;
-            padding: 15px;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .beat-btn:hover {
-            background-color: #3a3a7a;
-            transform: translateY(-3px);
-        }
-        
-        .beat-btn.active {
-            background: linear-gradient(90deg, #4ecdc4, #44a7d1);
-            box-shadow: 0 0 15px rgba(78, 205, 196, 0.5);
-        }
-        
-        .beat-icon {
-            font-size: 1.5rem;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
         }
         
         .game-info {
@@ -161,6 +119,13 @@
         .info-content {
             line-height: 1.6;
             color: #cbd5e1;
+        }
+        
+        .challenge-info {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
         }
         
         .stats {
@@ -206,107 +171,158 @@
             position: relative;
         }
         
-        /* 星球修復關卡 */
-        .planet-repair {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-        
+        /* 拍子顯示區域 */
         .beat-display {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             width: 100%;
         }
         
-        .beat-indicator {
+        .beat-structure {
             display: flex;
             justify-content: center;
-            gap: 10px;
             margin-bottom: 15px;
-        }
-        
-        .beat-dot {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-        
-        .beat-dot.strong {
-            background-color: #ff6b6b;
-            box-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
-        }
-        
-        .beat-dot.weak {
-            background-color: #4ecdc4;
-            box-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
-        }
-        
-        .beat-label {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-        
-        .beat-text {
-            width: 40px;
-            text-align: center;
-            font-weight: bold;
-            color: #ffd166;
-        }
-        
-        .repair-orbit {
             width: 100%;
-            max-width: 600px;
-            height: 150px;
-            background-color: rgba(30, 30, 70, 0.7);
-            border-radius: 75px;
-            margin-bottom: 40px;
+        }
+        
+        .beat-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 5px;
+        }
+        
+        .beat-box {
+            width: 120px;
+            height: 70px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-bottom: 5px;
             display: flex;
             align-items: center;
-            justify-content: space-around;
-            padding: 0 40px;
-            border: 3px solid #4ecdc4;
+            justify-content: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
             position: relative;
         }
         
-        .orbit-slot {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
+        .beat-box.strong {
+            border-color: #ff6b6b;
+            background-color: rgba(255, 107, 107, 0.1);
+        }
+        
+        .beat-box.weak {
+            border-color: #4ecdc4;
+            background-color: rgba(78, 205, 196, 0.1);
+        }
+        
+        .beat-label {
+            font-size: 0.9rem;
+            color: #ffd166;
+        }
+        
+        /* 完整一拍標示 */
+        .whole-beat-label {
+            position: absolute;
+            top: -25px;
+            font-size: 0.9rem;
+            color: #ffd166;
+            font-weight: bold;
+        }
+        
+        /* 節奏軌道區域 */
+        .rhythm-track {
+            width: 100%;
+            max-width: 700px;
+            background-color: rgba(30, 30, 70, 0.7);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 3px solid #4ecdc4;
+            position: relative;
+            min-height: 200px;
+        }
+        
+        .track-title {
+            text-align: center;
+            color: #ffd166;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        
+        .track-slots {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .half-slot-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .slot-label {
+            font-size: 0.9rem;
+            color: #a5b4fc;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        
+        .half-slot {
+            width: 70px;
+            height: 90px;
+            border-radius: 10px;
             background-color: rgba(255, 255, 255, 0.05);
             border: 3px dashed rgba(255, 255, 255, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: 1.2rem;
             color: rgba(255, 255, 255, 0.3);
             transition: all 0.3s ease;
+            margin-bottom: 10px;
+            position: relative;
         }
         
-        .orbit-slot.filled {
-            border: none;
-            background-color: transparent;
-        }
-        
-        .orbit-slot.hover {
+        .half-slot.hover {
             border-color: #ffd166;
             background-color: rgba(255, 209, 102, 0.1);
         }
         
+        .half-slot.filled {
+            border: none;
+        }
+        
+        .slot-connector {
+            width: 25px;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.3);
+            margin: 5px 0;
+        }
+        
+        /* 完整拍子連接線 */
+        .whole-beat-connector {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            height: 3px;
+            background-color: rgba(255, 209, 102, 0.5);
+            z-index: 1;
+            display: none;
+        }
+        
+        .whole-beat-connector.show {
+            display: block;
+        }
+        
+        /* 節奏積木區 */
         .rhythm-palette {
             display: flex;
             gap: 25px;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             flex-wrap: wrap;
             justify-content: center;
         }
@@ -314,17 +330,18 @@
         .palette-block {
             width: 120px;
             height: 120px;
-            border-radius: 20px;
+            border-radius: 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: bold;
             color: white;
             cursor: grab;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
+            position: relative;
         }
         
         .palette-block:hover {
@@ -340,20 +357,54 @@
             background: linear-gradient(135deg, #ff6b6b, #ff9a76);
         }
         
-        .palette-block.ti-ti {
+        .palette-block.ti {
             background: linear-gradient(135deg, #4ecdc4, #8de4df);
+            width: 90px;
         }
         
         .palette-block.rest {
-            background: linear-gradient(135deg, #555, #777);
-            border: 2px dashed #aaa;
+            background: linear-gradient(135deg, #666, #888);
+            border: 3px solid #ffd166;
+            box-shadow: 0 0 15px rgba(255, 209, 102, 0.5);
+            position: relative;
+        }
+        
+        .rest-special {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 30px;
+            height: 30px;
+            background-color: #ffd166;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0c0b20;
+            font-weight: bold;
+            font-size: 0.9rem;
         }
         
         .palette-icon {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 2.2rem;
+            margin-bottom: 8px;
         }
         
+        .palette-count {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+        
+        /* 控制按鈕 */
         .control-buttons {
             display: flex;
             gap: 20px;
@@ -373,8 +424,8 @@
             gap: 10px;
         }
         
-        .play-btn {
-            background-color: #4ecdc4;
+        .new-btn {
+            background-color: #45b7d1;
         }
         
         .clear-btn {
@@ -389,6 +440,12 @@
         .control-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
         
         /* 反饋訊息 */
@@ -425,6 +482,7 @@
             100% { opacity: 0; }
         }
         
+        /* 星星背景 */
         .stars {
             position: absolute;
             top: 0;
@@ -455,62 +513,57 @@
             font-size: 0.9rem;
         }
         
-        .example-section {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 30px;
+        /* 完整一拍高亮 */
+        .whole-beat-highlight {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            border: 2px solid #ffd166;
+            box-shadow: 0 0 10px rgba(255, 209, 102, 0.5);
+            z-index: 2;
+            pointer-events: none;
+            display: none;
         }
         
-        .example-title {
-            color: #ffd166;
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            text-align: center;
+        .whole-beat-highlight.show {
+            display: block;
         }
         
-        .example-grid {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .example-item {
-            background-color: rgba(255, 255, 255, 0.1);
+        /* 規則提示 */
+        .rule-hint {
+            background-color: rgba(255, 209, 102, 0.1);
             border-radius: 10px;
             padding: 15px;
-            min-width: 180px;
+            margin-top: 20px;
+            border-left: 4px solid #ffd166;
         }
         
-        .example-beat {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 10px;
+        .rule-title {
+            color: #ffd166;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
         }
         
-        .example-note {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .rule-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        /* 分數動畫 */
+        .score-animation {
+            position: absolute;
+            font-size: 1.5rem;
             font-weight: bold;
+            color: #ffd166;
+            animation: floatUp 1.5s forwards;
+            pointer-events: none;
+            z-index: 100;
         }
         
-        .note-ta {
-            background-color: #ff6b6b;
-        }
-        
-        .note-ti-ti {
-            background-color: #4ecdc4;
-        }
-        
-        .note-rest {
-            background-color: #555;
-            border: 2px dashed #aaa;
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-50px) scale(1.5); }
         }
         
         /* 響應式設計 */
@@ -534,23 +587,31 @@
             }
             
             .game-screen {
-                min-height: 500px;
+                min-height: 600px;
                 padding: 15px;
             }
             
-            .repair-orbit {
-                height: 120px;
-                border-radius: 60px;
+            .rhythm-track {
+                padding: 15px;
             }
             
-            .orbit-slot {
+            .beat-box {
                 width: 90px;
-                height: 90px;
+                height: 60px;
+            }
+            
+            .half-slot {
+                width: 60px;
+                height: 80px;
             }
             
             .palette-block {
                 width: 100px;
                 height: 100px;
+            }
+            
+            .palette-block.ti {
+                width: 80px;
             }
             
             .control-buttons {
@@ -568,161 +629,125 @@
             <p class="subtitle">音樂節拍創作遊戲 - 二年級音樂單元：笑笑又唱唱</p>
             
             <div class="game-description">
-                <p>歡迎來到《星球節拍修復師》！在這個遊戲中，你需要修復星球的節拍軌道。</p>
-                <p>根據選擇的二拍子或三拍子，將下方的節奏積木拖放到正確的軌道位置上，完成一個完整的小節節拍。</p>
+                <p>歡迎來到《星球節拍修復師》！這是一個專注於節拍創作的遊戲。</p>
+                <p><strong>特別注意：</strong> Ti是半拍積木，需要兩個Ti才能組成一個完整拍子！休止符是完整一拍，有特殊金色邊框標示。</p>
             </div>
         </div>
         
         <div class="main-content">
             <div class="game-area">
                 <div class="control-panel">
-                    <h2 class="panel-title">拍子選擇</h2>
-                    
-                    <div class="beat-selector">
-                        <button class="beat-btn active" data-beat="2">
-                            <div class="beat-icon"><i class="fas fa-moon"></i></div>
-                            <div class="beat-text">
-                                <div class="beat-name">咚嚓星球</div>
-                                <div class="beat-desc">二拍子 (強-弱)</div>
-                            </div>
-                        </button>
-                        
-                        <button class="beat-btn" data-beat="3">
-                            <div class="beat-icon"><i class="fas fa-sun"></i></div>
-                            <div class="beat-text">
-                                <div class="beat-name">咚嚓嚓星球</div>
-                                <div class="beat-desc">三拍子 (強-弱-弱)</div>
-                            </div>
-                        </button>
-                    </div>
+                    <h2 class="panel-title">遊戲資訊</h2>
                     
                     <div class="game-info">
-                        <h3 class="info-title">遊戲說明</h3>
-                        <div class="info-content" id="level-description">
-                            選擇二拍子或三拍子模式，然後將下方的節奏積木拖放到星球軌道的空位上，創作一個完整的小節節拍。每個小節必須符合選擇的拍子類型。
+                        <h3 class="info-title">當前挑戰</h3>
+                        <div class="info-content" id="challenge-description">
+                            隨機出現二拍子或三拍子挑戰！請根據拍子結構，使用正確的節奏積木修復星球節拍軌道。
+                        </div>
+                    </div>
+                    
+                    <div class="challenge-info">
+                        <h3 class="info-title">節奏規則</h3>
+                        <div class="info-content">
+                            <p><strong>Ta</strong> = 一個完整拍子（佔兩個半拍格子）</p>
+                            <p><strong>Ti Ti</strong> = 兩個半拍（需要成對放置）</p>
+                            <p><strong class="rest-highlight">休止符</strong> = 完整一拍（有金色邊框標示）</p>
+                            <p>每個完整拍子由兩個半拍格子組成！</p>
                         </div>
                     </div>
                     
                     <div class="stats">
                         <div class="stat-item">
                             <div class="stat-value" id="score">0</div>
-                            <div class="stat-label">得分</div>
+                            <div class="stat-label">累積分數</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-value" id="completed">0</div>
-                            <div class="stat-label">完成節拍</div>
+                            <div class="stat-label">完成挑戰</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-value" id="stars">0</div>
-                            <div class="stat-label">星星</div>
+                            <div class="stat-value" id="current-beat">2</div>
+                            <div class="stat-label">當前拍子</div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="game-screen">
-                    <div class="game-screen-title" id="game-title">修復咚嚓星球的節拍軌道</div>
+                    <div class="game-screen-title" id="game-title">修復星球節拍軌道</div>
                     
                     <div class="game-content">
-                        <div class="planet-repair">
-                            <div class="beat-display">
-                                <div class="beat-indicator" id="beat-indicator">
-                                    <!-- 拍子指示點會由JavaScript動態生成 -->
-                                </div>
-                                <div class="beat-label" id="beat-label">
-                                    <!-- 拍子標籤會由JavaScript動態生成 -->
-                                </div>
-                            </div>
-                            
-                            <div class="repair-orbit">
-                                <div class="orbit-slot" id="slot-1">1</div>
-                                <div class="orbit-slot" id="slot-2">2</div>
-                                <div class="orbit-slot" id="slot-3" style="display: none;">3</div>
-                            </div>
-                            
-                            <div class="rhythm-palette">
-                                <div class="palette-block ta" data-type="ta">
-                                    <div class="palette-icon"><i class="fas fa-circle"></i></div>
-                                    <div>Ta</div>
-                                    <div style="font-size: 1rem; margin-top: 5px;">(一拍)</div>
-                                </div>
-                                <div class="palette-block ti-ti" data-type="ti-ti">
-                                    <div class="palette-icon"><i class="fas fa-clone"></i></div>
-                                    <div>Ti-Ti</div>
-                                    <div style="font-size: 1rem; margin-top: 5px;">(兩個半拍)</div>
-                                </div>
-                                <div class="palette-block rest" data-type="rest">
-                                    <div class="palette-icon"><i class="fas fa-pause"></i></div>
-                                    <div>休止</div>
-                                    <div style="font-size: 1rem; margin-top: 5px;">(空拍)</div>
-                                </div>
-                            </div>
-                            
-                            <div class="control-buttons">
-                                <button id="clear-rhythm" class="control-btn clear-btn">
-                                    <i class="fas fa-trash-alt"></i>
-                                    清除節拍
-                                </button>
-                                <button id="check-rhythm" class="control-btn check-btn">
-                                    <i class="fas fa-check-circle"></i>
-                                    檢查節拍
-                                </button>
+                        <!-- 拍子結構顯示 -->
+                        <div class="beat-display">
+                            <div class="beat-structure" id="beat-structure">
+                                <!-- 拍子結構會由JavaScript動態生成 -->
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="example-section">
-                <h3 class="example-title">節拍創作例子</h3>
-                <div class="example-grid">
-                    <div class="example-item">
-                        <h4>二拍子例子</h4>
-                        <div class="example-beat">
-                            <div class="example-note note-ta">Ta</div>
-                            <div class="example-note note-ta">Ta</div>
+                        
+                        <!-- 節奏軌道 -->
+                        <div class="rhythm-track" id="rhythm-track">
+                            <div class="track-title">節拍軌道 - <span id="beat-type">二拍子</span></div>
+                            <div class="track-slots" id="track-slots">
+                                <!-- 半拍格子會由JavaScript動態生成 -->
+                            </div>
                         </div>
-                        <p>節奏：咚 嚓</p>
-                    </div>
-                    <div class="example-item">
-                        <h4>二拍子例子</h4>
-                        <div class="example-beat">
-                            <div class="example-note note-ta">Ta</div>
-                            <div class="example-note note-ti-ti">Ti-Ti</div>
+                        
+                        <!-- 節奏積木區 -->
+                        <div class="rhythm-palette">
+                            <div class="palette-block ta" data-type="ta" data-value="1">
+                                <div class="palette-icon"><i class="fas fa-circle"></i></div>
+                                <div>Ta</div>
+                                <div class="palette-count" id="ta-count">∞</div>
+                            </div>
+                            <div class="palette-block ti" data-type="ti" data-value="0.5">
+                                <div class="palette-icon"><i class="fas fa-star-half-alt"></i></div>
+                                <div>Ti</div>
+                                <div class="palette-count" id="ti-count">∞</div>
+                            </div>
+                            <div class="palette-block rest" data-type="rest" data-value="1">
+                                <div class="palette-icon"><i class="fas fa-pause"></i></div>
+                                <div>休止</div>
+                                <div class="palette-count" id="rest-count">∞</div>
+                                <div class="rest-special">1拍</div>
+                            </div>
                         </div>
-                        <p>節奏：咚 嚓嚓</p>
-                    </div>
-                    <div class="example-item">
-                        <h4>三拍子例子</h4>
-                        <div class="example-beat">
-                            <div class="example-note note-ta">Ta</div>
-                            <div class="example-note note-rest">~</div>
-                            <div class="example-note note-ta">Ta</div>
+                        
+                        <div class="rule-hint">
+                            <div class="rule-title">重要提示</div>
+                            <div class="rule-text">
+                                <strong>Ti是半拍！</strong> 需要<strong>兩個Ti</strong>才能組成完整一拍。<br>
+                                <strong>休止符是完整一拍</strong>，有金色邊框和標示，需要佔用兩個半拍格子！
+                            </div>
                         </div>
-                        <p>節奏：咚 (空) 嚓</p>
-                    </div>
-                    <div class="example-item">
-                        <h4>三拍子例子</h4>
-                        <div class="example-beat">
-                            <div class="example-note note-ti-ti">Ti-Ti</div>
-                            <div class="example-note note-ti-ti">Ti-Ti</div>
-                            <div class="example-note note-ta">Ta</div>
+                        
+                        <div class="control-buttons">
+                            <button id="new-challenge" class="control-btn new-btn">
+                                <i class="fas fa-redo"></i>
+                                新挑戰
+                            </button>
+                            <button id="clear-rhythm" class="control-btn clear-btn">
+                                <i class="fas fa-trash-alt"></i>
+                                清除
+                            </button>
+                            <button id="check-rhythm" class="control-btn check-btn">
+                                <i class="fas fa-check-circle"></i>
+                                檢查節拍
+                            </button>
                         </div>
-                        <p>節奏：嚓嚓 嚓嚓 咚</p>
                     </div>
                 </div>
             </div>
         </div>
         
         <div class="footer">
-            <p>《星球節拍修復師》遊戲對應「單元一：笑笑又唱唱」教學計劃 - 二年級下學期音樂課程</p>
-            <p>培養學生：創造力 · 批判性思考 · 音樂節拍認知 · 合作精神</p>
-            <p>教學目標：透過拖曳方式創作節奏，辨別和表現二、三拍子的節奏</p>
+            <p>《星球節拍修復師》對應「單元一：笑笑又唱唱」教學計劃 - 二年級下學期音樂課程</p>
+            <p>培養學生：節拍認知 · 數學思維 · 空間規劃 · 創造力 · 解決問題能力</p>
+            <p>教學目標：理解兩個半拍(Ti)相加等於一個完整拍子，能根據二/三拍子結構創作節奏</p>
         </div>
     </div>
     
     <!-- 反饋訊息 -->
     <div class="feedback correct" id="correct-feedback">正確！節拍創作成功！</div>
-    <div class="feedback incorrect" id="incorrect-feedback">請檢查節拍是否完整</div>
+    <div class="feedback incorrect" id="incorrect-feedback">請檢查節拍是否正確完整</div>
     
     <!-- 背景星星 -->
     <div class="stars" id="stars-bg"></div>
@@ -730,24 +755,27 @@
     <script>
         // 遊戲狀態
         const gameState = {
-            currentBeat: 2, // 2拍或3拍
+            currentBeat: 2, // 2拍或3拍 (隨機)
             score: 0,
             completed: 0,
-            stars: 0,
-            slotContents: [null, null, null] // 軌道槽的內容
+            halfSlots: [], // 所有半拍格子
+            slotContents: [], // 每個半拍格子的內容
+            wholeBeatConnectors: [], // 完整拍子連接線
+            wholeBeatHighlights: [] // 完整拍子高亮效果
         };
         
         // DOM元素
-        const beatButtons = document.querySelectorAll('.beat-btn');
         const gameTitle = document.getElementById('game-title');
-        const levelDescription = document.getElementById('level-description');
+        const challengeDescription = document.getElementById('challenge-description');
         const scoreElement = document.getElementById('score');
         const completedElement = document.getElementById('completed');
-        const starsElement = document.getElementById('stars');
-        const beatIndicator = document.getElementById('beat-indicator');
-        const beatLabel = document.getElementById('beat-label');
-        const orbitSlots = document.querySelectorAll('.orbit-slot');
+        const currentBeatElement = document.getElementById('current-beat');
+        const beatTypeElement = document.getElementById('beat-type');
+        const beatStructure = document.getElementById('beat-structure');
+        const rhythmTrack = document.getElementById('rhythm-track');
+        const trackSlots = document.getElementById('track-slots');
         const paletteBlocks = document.querySelectorAll('.palette-block');
+        const newButton = document.getElementById('new-challenge');
         const clearButton = document.getElementById('clear-rhythm');
         const checkButton = document.getElementById('check-rhythm');
         const correctFeedback = document.getElementById('correct-feedback');
@@ -757,9 +785,8 @@
         function initGame() {
             createStars();
             updateGameInfo();
-            setupBeatSelection();
             setupEventListeners();
-            updateBeatDisplay();
+            generateNewChallenge();
         }
         
         // 創建背景星星
@@ -784,18 +811,11 @@
         
         // 設置事件監聽器
         function setupEventListeners() {
-            // 拍子選擇按鈕
-            beatButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const beatType = parseInt(this.getAttribute('data-beat'));
-                    selectBeatType(beatType);
-                });
-            });
-            
             // 節奏積木拖曳事件
             paletteBlocks.forEach(block => {
                 block.addEventListener('dragstart', function(e) {
-                    e.dataTransfer.setData('text/plain', this.getAttribute('data-type'));
+                    const type = this.getAttribute('data-type');
+                    e.dataTransfer.setData('text/plain', type);
                     this.style.opacity = '0.7';
                 });
                 
@@ -804,231 +824,606 @@
                 });
             });
             
-            // 軌道槽拖放事件
-            orbitSlots.forEach((slot, index) => {
-                slot.addEventListener('dragover', function(e) {
-                    e.preventDefault();
-                    this.classList.add('hover');
-                });
-                
-                slot.addEventListener('dragleave', function() {
-                    this.classList.remove('hover');
-                });
-                
-                slot.addEventListener('drop', function(e) {
-                    e.preventDefault();
-                    this.classList.remove('hover');
-                    
-                    const type = e.dataTransfer.getData('text/plain');
-                    if (type) {
-                        placeRhythmBlock(index, type);
-                    }
-                });
-            });
-            
             // 控制按鈕
+            newButton.addEventListener('click', generateNewChallenge);
             clearButton.addEventListener('click', clearRhythm);
             checkButton.addEventListener('click', checkRhythm);
         }
         
-        // 設置拍子選擇
-        function setupBeatSelection() {
-            // 默認選擇二拍子
-            selectBeatType(2);
+        // 生成新挑戰
+        function generateNewChallenge() {
+            // 隨機選擇2拍或3拍
+            gameState.currentBeat = Math.random() < 0.5 ? 2 : 3;
+            
+            // 更新遊戲標題和描述
+            updateChallengeDisplay();
+            
+            // 創建拍子結構顯示
+            createBeatStructure();
+            
+            // 創建節奏軌道
+            createRhythmTrack();
+            
+            // 重置已使用的積木
+            gameState.slotContents = Array(gameState.currentBeat * 2).fill(null);
+            
+            // 更新積木計數顯示
+            updatePaletteCounts();
         }
         
-        // 選擇拍子類型
-        function selectBeatType(beatType) {
-            gameState.currentBeat = beatType;
+        // 更新挑戰顯示
+        function updateChallengeDisplay() {
+            const beatText = gameState.currentBeat === 2 ? "二拍子 (強-弱)" : "三拍子 (強-弱-弱)";
+            gameTitle.textContent = `修復${gameState.currentBeat}拍子星球軌道`;
+            beatTypeElement.textContent = `${gameState.currentBeat}拍子`;
+            currentBeatElement.textContent = gameState.currentBeat;
             
-            // 更新按鈕狀態
-            beatButtons.forEach(button => {
-                const btnBeat = parseInt(button.getAttribute('data-beat'));
-                if (btnBeat === beatType) {
-                    button.classList.add('active');
-                } else {
-                    button.classList.remove('active');
-                }
-            });
-            
-            // 更新標題
-            if (beatType === 2) {
-                gameTitle.textContent = "修復咚嚓星球的節拍軌道";
-                levelDescription.textContent = "選擇二拍子模式，將節奏積木拖放到星球軌道的兩個空位上，創作一個完整的二拍子小節節拍。";
-            } else {
-                gameTitle.textContent = "修復咚嚓嚓星球的節拍軌道";
-                levelDescription.textContent = "選擇三拍子模式，將節奏積木拖放到星球軌道的三個空位上，創作一個完整的三拍子小節節拍。";
-            }
-            
-            // 更新拍子顯示
-            updateBeatDisplay();
-            
-            // 清空當前節拍
-            clearRhythm();
+            challengeDescription.textContent = `挑戰${gameState.currentBeat}拍子結構！請根據拍子結構創作節奏。`;
         }
         
-        // 更新拍子顯示
-        function updateBeatDisplay() {
-            // 清空現有顯示
-            beatIndicator.innerHTML = '';
-            beatLabel.innerHTML = '';
+        // 創建拍子結構顯示
+        function createBeatStructure() {
+            beatStructure.innerHTML = '';
             
-            // 根據拍子類型創建指示點和標籤
             for (let i = 0; i < gameState.currentBeat; i++) {
-                // 創建拍子指示點
-                const dot = document.createElement('div');
-                dot.classList.add('beat-dot');
+                const beatUnit = document.createElement('div');
+                beatUnit.classList.add('beat-unit');
                 
+                // 完整一拍標示
+                const wholeBeatLabel = document.createElement('div');
+                wholeBeatLabel.classList.add('whole-beat-label');
+                wholeBeatLabel.textContent = `完整一拍`;
+                beatUnit.appendChild(wholeBeatLabel);
+                
+                // 創建完整拍子盒子（包含兩個半拍）
+                const beatBox = document.createElement('div');
+                beatBox.classList.add('beat-box');
                 if (i === 0) {
-                    dot.classList.add('strong');
-                    dot.textContent = "強";
+                    beatBox.classList.add('strong');
                 } else {
-                    dot.classList.add('weak');
-                    dot.textContent = "弱";
+                    beatBox.classList.add('weak');
                 }
                 
-                beatIndicator.appendChild(dot);
+                // 在拍子盒子內顯示半拍分隔
+                beatBox.innerHTML = `
+                    <div style="display: flex; width: 100%; height: 100%;">
+                        <div style="flex: 1; border-right: 2px dashed rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: rgba(255,255,255,0.6);">½</div>
+                        <div style="flex: 1; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: rgba(255,255,255,0.6);">½</div>
+                    </div>
+                `;
                 
-                // 創建拍子標籤
-                const label = document.createElement('div');
-                label.classList.add('beat-text');
-                label.textContent = `拍${i + 1}`;
-                beatLabel.appendChild(label);
+                // 拍子標籤
+                const beatLabel = document.createElement('div');
+                beatLabel.classList.add('beat-label');
+                beatLabel.textContent = `拍${i + 1}`;
+                
+                beatUnit.appendChild(beatBox);
+                beatUnit.appendChild(beatLabel);
+                beatStructure.appendChild(beatUnit);
+            }
+        }
+        
+        // 創建節奏軌道
+        function createRhythmTrack() {
+            trackSlots.innerHTML = '';
+            
+            gameState.halfSlots = [];
+            gameState.wholeBeatConnectors = [];
+            gameState.wholeBeatHighlights = [];
+            
+            // 總共需要的半拍格子數量 = 拍子數 * 2
+            const totalHalfBeats = gameState.currentBeat * 2;
+            
+            // 先創建完整拍子連接線
+            for (let i = 0; i < gameState.currentBeat; i++) {
+                const connector = document.createElement('div');
+                connector.classList.add('whole-beat-connector');
+                connector.dataset.beatIndex = i;
+                rhythmTrack.appendChild(connector);
+                gameState.wholeBeatConnectors.push(connector);
+                
+                // 創建完整拍子高亮效果
+                const highlight = document.createElement('div');
+                highlight.classList.add('whole-beat-highlight');
+                highlight.dataset.beatIndex = i;
+                rhythmTrack.appendChild(highlight);
+                gameState.wholeBeatHighlights.push(highlight);
             }
             
-            // 顯示/隱藏第三個軌道槽
-            const slot3 = document.getElementById('slot-3');
-            if (gameState.currentBeat === 3) {
-                slot3.style.display = 'flex';
-            } else {
-                slot3.style.display = 'none';
+            for (let i = 0; i < totalHalfBeats; i++) {
+                const halfSlotContainer = document.createElement('div');
+                halfSlotContainer.classList.add('half-slot-container');
+                
+                // 半拍標籤
+                const slotLabel = document.createElement('div');
+                slotLabel.classList.add('slot-label');
+                const beatIndex = Math.floor(i / 2) + 1;
+                const halfIndex = (i % 2) + 1;
+                slotLabel.textContent = `拍${beatIndex}-${halfIndex}`;
+                
+                // 半拍格子
+                const halfSlot = document.createElement('div');
+                halfSlot.classList.add('half-slot');
+                halfSlot.dataset.index = i;
+                halfSlot.dataset.beatIndex = Math.floor(i / 2);
+                halfSlot.textContent = halfIndex;
+                
+                // 設置拖放事件
+                setupSlotEvents(halfSlot);
+                
+                halfSlotContainer.appendChild(slotLabel);
+                halfSlotContainer.appendChild(halfSlot);
+                
+                // 如果這是每對半拍的第一個，添加連接器
+                if (i % 2 === 0 && i < totalHalfBeats - 1) {
+                    const connector = document.createElement('div');
+                    connector.classList.add('slot-connector');
+                    halfSlotContainer.appendChild(connector);
+                }
+                
+                trackSlots.appendChild(halfSlotContainer);
+                
+                // 保存到遊戲狀態
+                gameState.halfSlots.push(halfSlot);
             }
             
-            // 重置軌道槽內容
-            gameState.slotContents = Array(gameState.currentBeat).fill(null);
+            // 更新連接線位置
+            updateConnectorPositions();
+        }
+        
+        // 更新連接線位置
+        function updateConnectorPositions() {
+            gameState.wholeBeatConnectors.forEach((connector, beatIndex) => {
+                const firstSlotIndex = beatIndex * 2;
+                const secondSlotIndex = firstSlotIndex + 1;
+                
+                const firstSlot = gameState.halfSlots[firstSlotIndex];
+                const secondSlot = gameState.halfSlots[secondSlotIndex];
+                
+                if (firstSlot && secondSlot) {
+                    const firstRect = firstSlot.getBoundingClientRect();
+                    const secondRect = secondSlot.getBoundingClientRect();
+                    const trackRect = rhythmTrack.getBoundingClientRect();
+                    
+                    const left = firstRect.left - trackRect.left + firstRect.width / 2;
+                    const right = secondRect.left - trackRect.left + secondRect.width / 2;
+                    const top = firstRect.top - trackRect.top + firstRect.height / 2;
+                    
+                    connector.style.left = `${left}px`;
+                    connector.style.width = `${right - left}px`;
+                    connector.style.top = `${top}px`;
+                }
+            });
             
-            // 重置軌道槽顯示
-            orbitSlots.forEach((slot, index) => {
-                if (index < gameState.currentBeat) {
-                    slot.style.display = 'flex';
-                    resetSlot(slot, index);
-                } else {
-                    slot.style.display = 'none';
+            // 更新高亮效果位置
+            gameState.wholeBeatHighlights.forEach((highlight, beatIndex) => {
+                const firstSlotIndex = beatIndex * 2;
+                const secondSlotIndex = firstSlotIndex + 1;
+                
+                const firstSlot = gameState.halfSlots[firstSlotIndex];
+                const secondSlot = gameState.halfSlots[secondSlotIndex];
+                
+                if (firstSlot && secondSlot) {
+                    const firstRect = firstSlot.getBoundingClientRect();
+                    const secondRect = secondSlot.getBoundingClientRect();
+                    const trackRect = rhythmTrack.getBoundingClientRect();
+                    
+                    const left = firstRect.left - trackRect.left - 5;
+                    const width = secondRect.right - firstRect.left + 10;
+                    const top = firstRect.top - trackRect.top - 5;
+                    const height = firstRect.height + 10;
+                    
+                    highlight.style.left = `${left}px`;
+                    highlight.style.width = `${width}px`;
+                    highlight.style.top = `${top}px`;
+                    highlight.style.height = `${height}px`;
                 }
             });
         }
         
-        // 重置軌道槽
-        function resetSlot(slot, index) {
-            slot.classList.remove('filled');
-            slot.innerHTML = index + 1;
-            slot.style.background = "rgba(255, 255, 255, 0.05)";
-            slot.style.border = "3px dashed rgba(255, 255, 255, 0.3)";
-            slot.style.color = "rgba(255, 255, 255, 0.3)";
+        // 設置格子事件
+        function setupSlotEvents(slot) {
+            slot.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('hover');
+                
+                // 顯示對應的完整拍子高亮
+                const beatIndex = parseInt(this.dataset.beatIndex);
+                const highlight = gameState.wholeBeatHighlights[beatIndex];
+                if (highlight) {
+                    highlight.classList.add('show');
+                }
+            });
+            
+            slot.addEventListener('dragleave', function() {
+                this.classList.remove('hover');
+                
+                // 隱藏完整拍子高亮
+                const beatIndex = parseInt(this.dataset.beatIndex);
+                const highlight = gameState.wholeBeatHighlights[beatIndex];
+                if (highlight) {
+                    highlight.classList.remove('show');
+                }
+            });
+            
+            slot.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('hover');
+                
+                const type = e.dataTransfer.getData('text/plain');
+                if (type) {
+                    placeRhythmBlock(this, type);
+                }
+                
+                // 隱藏完整拍子高亮
+                const beatIndex = parseInt(this.dataset.beatIndex);
+                const highlight = gameState.wholeBeatHighlights[beatIndex];
+                if (highlight) {
+                    highlight.classList.remove('show');
+                }
+            });
+            
+            // 點擊移除功能
+            slot.addEventListener('click', function(e) {
+                // 如果格子已有內容，點擊移除
+                const index = parseInt(this.dataset.index);
+                if (gameState.slotContents[index] !== null) {
+                    removeRhythmBlock(index);
+                }
+            });
         }
         
         // 放置節奏積木
-        function placeRhythmBlock(slotIndex, type) {
-            // 確保索引有效
-            if (slotIndex >= gameState.currentBeat) return;
+        function placeRhythmBlock(slot, type) {
+            const index = parseInt(slot.dataset.index);
+            const beatIndex = parseInt(slot.dataset.beatIndex);
             
-            const slot = orbitSlots[slotIndex];
+            // 檢查是否已經有內容
+            if (gameState.slotContents[index] !== null) {
+                return; // 格子已被佔用
+            }
             
-            // 更新槽內容
-            gameState.slotContents[slotIndex] = type;
+            // 特殊處理：如果是Ti，需要檢查是否成對放置
+            if (type === 'ti') {
+                // 檢查是否在嘗試放置第一個Ti
+                // 找到這個完整拍子的兩個半拍位置
+                const firstHalfIndex = beatIndex * 2;
+                const secondHalfIndex = firstHalfIndex + 1;
+                
+                // 檢查這個完整拍子的狀態
+                const firstHalfContent = gameState.slotContents[firstHalfIndex];
+                const secondHalfContent = gameState.slotContents[secondHalfIndex];
+                
+                // 如果兩個半拍都空，這是第一個Ti
+                if (firstHalfContent === null && secondHalfContent === null) {
+                    // 可以放置第一個Ti
+                } 
+                // 如果已經有一個Ti，嘗試放置第二個Ti
+                else if ((firstHalfContent === 'ti' && secondHalfContent === null) || 
+                         (firstHalfContent === null && secondHalfContent === 'ti')) {
+                    // 可以放置第二個Ti
+                } else {
+                    showFeedback(false, "Ti需要成對放置在完整拍子的兩個半拍位置上！");
+                    return;
+                }
+            } 
+            // 如果是Ta或休止符，需要佔用整個拍子
+            else if (type === 'ta' || type === 'rest') {
+                // 檢查這個完整拍子的兩個半拍是否都空
+                const firstHalfIndex = beatIndex * 2;
+                const secondHalfIndex = firstHalfIndex + 1;
+                
+                if (gameState.slotContents[firstHalfIndex] !== null || 
+                    gameState.slotContents[secondHalfIndex] !== null) {
+                    showFeedback(false, `${type === 'ta' ? 'Ta' : '休止符'}需要佔用整個完整拍子！`);
+                    return;
+                }
+                
+                // 佔用兩個半拍格子
+                gameState.slotContents[firstHalfIndex] = type;
+                gameState.slotContents[secondHalfIndex] = type;
+                
+                // 更新兩個格子的顯示
+                updateSlotDisplay(firstHalfIndex, type, true);
+                updateSlotDisplay(secondHalfIndex, type, true);
+                
+                // 如果是休止符，特別顯示完整一拍效果
+                if (type === 'rest') {
+                    showWholeBeatEffect(beatIndex, 'rest');
+                }
+                
+                // 顯示完整拍子連接線
+                const connector = gameState.wholeBeatConnectors[beatIndex];
+                if (connector) {
+                    connector.classList.add('show');
+                }
+                
+                updatePaletteCounts();
+                return;
+            }
+            
+            // 對於Ti，只佔用當前格子
+            gameState.slotContents[index] = type;
+            updateSlotDisplay(index, type, false);
+            
+            // 檢查是否已放置兩個Ti，如果是則顯示連接線
+            checkTiPairComplete(beatIndex);
+            
+            updatePaletteCounts();
+        }
+        
+        // 更新格子顯示
+        function updateSlotDisplay(index, type, isFullBeat) {
+            const slot = gameState.halfSlots[index];
             slot.classList.add('filled');
             
-            // 設置槽的外觀
             if (type === 'ta') {
                 slot.style.background = "linear-gradient(135deg, #ff6b6b, #ff9a76)";
-                slot.innerHTML = '<i class="fas fa-circle" style="font-size: 2.5rem;"></i><div style="margin-top: 5px; font-size: 1.2rem;">Ta</div>';
+                slot.innerHTML = '<i class="fas fa-circle" style="font-size: 2rem;"></i>';
                 slot.style.color = "white";
-            } else if (type === 'ti-ti') {
+            } else if (type === 'ti') {
                 slot.style.background = "linear-gradient(135deg, #4ecdc4, #8de4df)";
-                slot.innerHTML = '<i class="fas fa-clone" style="font-size: 2.5rem;"></i><div style="margin-top: 5px; font-size: 1.2rem;">Ti-Ti</div>';
+                slot.innerHTML = '<i class="fas fa-star-half-alt" style="font-size: 2rem;"></i>';
                 slot.style.color = "white";
             } else if (type === 'rest') {
-                slot.style.background = "linear-gradient(135deg, #555, #777)";
-                slot.innerHTML = '<i class="fas fa-pause" style="font-size: 2.5rem;"></i><div style="margin-top: 5px; font-size: 1.2rem;">休止</div>';
+                slot.style.background = "linear-gradient(135deg, #666, #888)";
+                slot.innerHTML = '<i class="fas fa-pause" style="font-size: 2rem;"></i>';
                 slot.style.color = "white";
-                slot.style.border = "3px dashed #aaa";
+                slot.style.border = "3px solid #ffd166";
+                slot.style.boxShadow = "0 0 10px rgba(255, 209, 102, 0.5)";
+            }
+            
+            // 如果是完整拍子，顯示不同樣式
+            if (isFullBeat) {
+                slot.style.border = "3px solid #ffd166";
             }
         }
         
-        // 清除節拍
-        function clearRhythm() {
-            // 重置軌道槽內容
-            gameState.slotContents = Array(gameState.currentBeat).fill(null);
+        // 檢查Ti是否成對完成
+        function checkTiPairComplete(beatIndex) {
+            const firstHalfIndex = beatIndex * 2;
+            const secondHalfIndex = firstHalfIndex + 1;
             
-            // 重置軌道槽顯示
-            orbitSlots.forEach((slot, index) => {
-                if (index < gameState.currentBeat) {
-                    resetSlot(slot, index);
+            if (gameState.slotContents[firstHalfIndex] === 'ti' && 
+                gameState.slotContents[secondHalfIndex] === 'ti') {
+                // 兩個Ti都放置了，顯示連接線
+                const connector = gameState.wholeBeatConnectors[beatIndex];
+                if (connector) {
+                    connector.classList.add('show');
                 }
+                
+                // 顯示完整一拍效果
+                showWholeBeatEffect(beatIndex, 'ti-ti');
+            }
+        }
+        
+        // 顯示完整一拍效果
+        function showWholeBeatEffect(beatIndex, type) {
+            const highlight = gameState.wholeBeatHighlights[beatIndex];
+            if (highlight) {
+                highlight.classList.add('show');
+                
+                if (type === 'rest') {
+                    highlight.style.borderColor = '#ffd166';
+                    highlight.style.boxShadow = '0 0 15px rgba(255, 209, 102, 0.7)';
+                } else if (type === 'ti-ti') {
+                    highlight.style.borderColor = '#4ecdc4';
+                    highlight.style.boxShadow = '0 0 15px rgba(78, 205, 196, 0.7)';
+                }
+            }
+        }
+        
+        // 移除節奏積木
+        function removeRhythmBlock(index) {
+            const type = gameState.slotContents[index];
+            if (!type) return;
+            
+            const beatIndex = Math.floor(index / 2);
+            
+            // 如果是Ta或休止符，需要清除整個拍子
+            if (type === 'ta' || type === 'rest') {
+                const firstHalfIndex = beatIndex * 2;
+                const secondHalfIndex = firstHalfIndex + 1;
+                
+                // 清除兩個格子
+                resetSlotDisplay(firstHalfIndex);
+                resetSlotDisplay(secondHalfIndex);
+                
+                // 重置內容
+                gameState.slotContents[firstHalfIndex] = null;
+                gameState.slotContents[secondHalfIndex] = null;
+                
+                // 隱藏連接線
+                const connector = gameState.wholeBeatConnectors[beatIndex];
+                if (connector) {
+                    connector.classList.remove('show');
+                }
+                
+                // 隱藏高亮效果
+                const highlight = gameState.wholeBeatHighlights[beatIndex];
+                if (highlight) {
+                    highlight.classList.remove('show');
+                }
+            } 
+            // 如果是Ti，只清除當前格子
+            else if (type === 'ti') {
+                resetSlotDisplay(index);
+                gameState.slotContents[index] = null;
+                
+                // 檢查並更新連接線
+                const firstHalfIndex = beatIndex * 2;
+                const secondHalfIndex = firstHalfIndex + 1;
+                
+                // 如果另一個半拍也是Ti，也需要清除連接線
+                const otherIndex = index === firstHalfIndex ? secondHalfIndex : firstHalfIndex;
+                if (gameState.slotContents[otherIndex] === 'ti') {
+                    // 另一個半拍還有Ti，連接線保持顯示
+                } else {
+                    // 兩個Ti都沒有了，隱藏連接線
+                    const connector = gameState.wholeBeatConnectors[beatIndex];
+                    if (connector) {
+                        connector.classList.remove('show');
+                    }
+                    
+                    // 隱藏高亮效果
+                    const highlight = gameState.wholeBeatHighlights[beatIndex];
+                    if (highlight) {
+                        highlight.classList.remove('show');
+                    }
+                }
+            }
+            
+            updatePaletteCounts();
+        }
+        
+        // 重置格子顯示
+        function resetSlotDisplay(index) {
+            const slot = gameState.halfSlots[index];
+            slot.classList.remove('filled', 'hover');
+            slot.style.background = "";
+            slot.style.border = "";
+            slot.style.boxShadow = "";
+            slot.style.color = "";
+            
+            const halfIndex = (index % 2) + 1;
+            slot.innerHTML = halfIndex;
+            slot.style.border = "3px dashed rgba(255, 255, 255, 0.3)";
+            slot.style.background = "rgba(255, 255, 255, 0.05)";
+            slot.style.color = "rgba(255, 255, 255, 0.3)";
+        }
+        
+        // 更新積木計數顯示
+        function updatePaletteCounts() {
+            // 無限積木，所以只顯示∞
+            taCountElement.textContent = "∞";
+            tiCountElement.textContent = "∞";
+            restCountElement.textContent = "∞";
+        }
+        
+        // 清除節奏
+        function clearRhythm() {
+            // 重置所有格子
+            gameState.halfSlots.forEach((slot, index) => {
+                resetSlotDisplay(index);
+                gameState.slotContents[index] = null;
             });
+            
+            // 隱藏所有連接線和高亮效果
+            gameState.wholeBeatConnectors.forEach(connector => {
+                connector.classList.remove('show');
+            });
+            
+            gameState.wholeBeatHighlights.forEach(highlight => {
+                highlight.classList.remove('show');
+            });
+            
+            updatePaletteCounts();
         }
         
         // 檢查節拍
         function checkRhythm() {
-            // 檢查是否所有槽都已填滿
-            const isComplete = gameState.slotContents.every((slot, index) => {
-                return index < gameState.currentBeat ? slot !== null : true;
-            });
+            // 檢查是否所有完整拍子都已完成
+            let allComplete = true;
+            let completedBeats = 0;
             
-            if (!isComplete) {
-                showFeedback(false);
-                return;
+            for (let beatIndex = 0; beatIndex < gameState.currentBeat; beatIndex++) {
+                const firstHalfIndex = beatIndex * 2;
+                const secondHalfIndex = firstHalfIndex + 1;
+                
+                const firstContent = gameState.slotContents[firstHalfIndex];
+                const secondContent = gameState.slotContents[secondHalfIndex];
+                
+                // 檢查這個完整拍子是否有效
+                let isValid = false;
+                
+                // 有效組合:
+                // 1. Ta + Ta (完整拍子)
+                if (firstContent === 'ta' && secondContent === 'ta') {
+                    isValid = true;
+                    completedBeats++;
+                }
+                // 2. 休止 + 休止 (完整拍子)
+                else if (firstContent === 'rest' && secondContent === 'rest') {
+                    isValid = true;
+                    completedBeats++;
+                }
+                // 3. Ti + Ti (兩個半拍組成完整拍子)
+                else if (firstContent === 'ti' && secondContent === 'ti') {
+                    isValid = true;
+                    completedBeats++;
+                }
+                
+                if (!isValid) {
+                    allComplete = false;
+                }
             }
             
-            // 檢查是否至少有一個音符（不是全部休止）
-            const hasNote = gameState.slotContents.some(slot => slot === 'ta' || slot === 'ti-ti');
-            
-            if (!hasNote) {
-                showFeedback(false);
+            if (!allComplete) {
+                showFeedback(false, "節拍不完整！請檢查每個完整拍子是否正確組合。");
                 return;
             }
             
             // 成功！
-            gameState.score += 100;
             gameState.completed += 1;
-            gameState.stars += 1;
+            
+            // 計算分數：基本分 + 拍子難度分 + 特殊獎勵
+            let baseScore = 100;
+            let difficultyBonus = (gameState.currentBeat - 2) * 50; // 三拍子多50分
+            let completionBonus = completedBeats * 20;
+            
+            let totalScore = baseScore + difficultyBonus + completionBonus;
+            gameState.score += totalScore;
+            
+            // 顯示分數動畫
+            showScoreAnimation(totalScore);
             
             updateGameInfo();
-            showFeedback(true);
+            showFeedback(true, `太棒了！完成${gameState.currentBeat}拍子節拍！獲得${totalScore}分！`);
             
-            // 延遲後清空並繼續
+            // 延遲後生成新挑戰
             setTimeout(() => {
-                clearRhythm();
-                
-                // 隨機切換拍子類型增加挑戰性
-                if (Math.random() > 0.7) {
-                    const newBeat = gameState.currentBeat === 2 ? 3 : 2;
-                    selectBeatType(newBeat);
-                }
+                generateNewChallenge();
             }, 2000);
+        }
+        
+        // 顯示分數動畫
+        function showScoreAnimation(score) {
+            const animation = document.createElement('div');
+            animation.classList.add('score-animation');
+            animation.textContent = `+${score}`;
+            animation.style.left = '50%';
+            animation.style.top = '50%';
+            
+            gameContent.appendChild(animation);
+            
+            setTimeout(() => {
+                animation.remove();
+            }, 1500);
         }
         
         // 更新遊戲資訊
         function updateGameInfo() {
             scoreElement.textContent = gameState.score;
             completedElement.textContent = gameState.completed;
-            starsElement.textContent = gameState.stars;
+            currentBeatElement.textContent = gameState.currentBeat;
         }
         
         // 顯示反饋訊息
-        function showFeedback(isCorrect) {
-            if (isCorrect) {
-                correctFeedback.style.display = 'block';
-                setTimeout(() => {
-                    correctFeedback.style.display = 'none';
-                }, 2000);
-            } else {
-                incorrectFeedback.style.display = 'block';
-                setTimeout(() => {
-                    incorrectFeedback.style.display = 'none';
-                }, 2000);
+        function showFeedback(isCorrect, message) {
+            const feedback = isCorrect ? correctFeedback : incorrectFeedback;
+            
+            if (message) {
+                feedback.textContent = message;
             }
+            
+            feedback.style.display = 'block';
+            setTimeout(() => {
+                feedback.style.display = 'none';
+            }, 2000);
         }
+        
+        // 窗口大小改變時更新連接線位置
+        window.addEventListener('resize', updateConnectorPositions);
         
         // 初始化遊戲
         window.addEventListener('DOMContentLoaded', initGame);

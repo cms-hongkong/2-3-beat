@@ -3,190 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>音符剪刀手 - 學習分句</title>
+    <title>小音樂家分句大師</title>
     <style>
+        :root {
+            --primary: #4a90e2;
+            --success: #66bb6a;
+            --error: #ef5350;
+            --staff-line: #333;
+        }
+
         body {
             margin: 0;
-            background: #fff9c4;
             font-family: 'Microsoft JhengHei', sans-serif;
+            background: #f7f9fc;
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow: hidden;
+            min-height: 100vh;
         }
 
-        #ui { text-align: center; margin: 20px; }
-        h1 { color: #f57c00; }
-        .hint { color: #666; font-size: 1.1rem; }
+        /* 第一階段：題目提示 */
+        #quiz-header {
+            background: var(--primary);
+            color: white;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
 
-        /* 五線譜區域 */
-        #staff {
-            width: 100vw;
-            height: 250px;
-            background: white;
-            border-top: 4px solid #333;
-            border-bottom: 4px solid #333;
-            position: relative;
+        /* 樂譜容器 */
+        #score-container {
             margin-top: 50px;
-            /* 繪製五線譜的線 */
-            background-image: linear-gradient(#eee 1px, transparent 1px);
-            background-size: 100% 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 第一行 4 小節 */
+            grid-gap: 0;
+            width: 90vw;
+            max-width: 1000px;
+            position: relative;
         }
 
-        /* 判定區域（剪刀位置） */
-        #cut-zone {
-            position: absolute;
-            left: 150px;
-            top: 0;
-            width: 80px;
-            height: 100%;
-            border: 4px dashed #ff5252;
-            background: rgba(255, 82, 82, 0.1);
-            z-index: 10;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            padding-bottom: 10px;
-        }
-
-        /* 音符樣式 */
-        .note {
-            position: absolute;
-            width: 40px;
-            height: 40px;
+        /* 小節樣式 */
+        .measure {
+            height: 120px;
+            border-right: 2px solid var(--staff-line);
+            position: relative;
+            background: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 50px; /* 使用 Emoji 或符號 */
-            transition: transform 0.1s;
-        }
-
-        /* 按鈕 */
-        #btn-cut {
-            margin-top: 40px;
-            padding: 20px 80px;
-            font-size: 2rem;
-            background: #ff5252;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            box-shadow: 0 8px 0 #d32f2f;
+            font-size: 40px;
+            /* 繪製五線譜 */
+            background-image: linear-gradient(var(--staff-line) 1px, transparent 1px);
+            background-size: 100% 20px;
             cursor: pointer;
         }
 
-        #btn-cut:active { transform: translateY(4px); box-shadow: 0 4px 0 #d32f2f; }
+        .measure:nth-child(4n) { border-right: 4px solid var(--staff-line); }
+        .measure:nth-child(n+5) { margin-top: 40px; } /* 第二行 */
 
-        .balloon {
+        /* 序號 */
+        .measure-num {
             position: absolute;
-            font-size: 40px;
-            animation: floatUp 1.5s forwards;
+            top: -25px;
+            left: 5px;
+            font-size: 14px;
+            color: #888;
         }
 
-        @keyframes floatUp {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-200px) scale(1.5); opacity: 0; }
+        /* 分句彩虹線 */
+        .phrase-arc {
+            position: absolute;
+            top: -50px;
+            height: 60px;
+            border: 4px solid var(--success);
+            border-bottom: none;
+            border-radius: 100px 100px 0 0;
+            pointer-events: none;
+            z-index: 10;
         }
+
+        /* 控制區 */
+        #controls {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 15px 50px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        #check-btn { background: #ff9800; color: white; box-shadow: 0 5px 0 #e68a00; }
+        #next-btn { background: var(--success); color: white; box-shadow: 0 5px 0 #4caf50; display: none; }
+
+        /* 結果提示 */
+        #result-msg { font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-<div id="ui">
-    <h1>🎵 音符剪刀手 🎵</h1>
-    <p class="hint">當<b>空心音符 (長音)</b> 或 <b>休止符</b> 進入紅色框框時，快按下剪刀！</p>
+<div id="quiz-header">
+    題目：請為這首 <b id="beat-type">?</b> 拍樂曲進行 <b id="rule-type">?</b> 小節分句
 </div>
 
-<div id="staff">
-    <div id="cut-zone">✂️</div>
-    <div id="note-stream"></div>
-</div>
+<div id="score-container">
+    </div>
 
-<button id="btn-cut">✂️ 剪斷分句！</button>
+<div id="controls">
+    <div id="result-msg"></div>
+    <button id="check-btn" class="btn" onclick="checkAnswers()">檢查我的分句</button>
+    <button id="next-btn" class="btn" onclick="initGame()">下一題</button>
+</div>
 
 <script>
-    const stream = document.getElementById('note-stream');
-    const cutZone = document.getElementById('cut-zone');
+    const scoreContainer = document.getElementById('score-container');
+    const beatTypeEl = document.getElementById('beat-type');
+    const ruleTypeEl = document.getElementById('rule-type');
+    const resultMsg = document.getElementById('result-msg');
     
-    // 定義音符類型
-    const TYPE = {
-        SHORT: '♩',  // 四分音符 (實心)
-        LONG: '🚀',   // 我們可以用火箭或空心圓代表長音 𝅗𝅥
-        REST: '💤'   // 休止符 𝄽
-    };
+    let targetRule = 2; // 分句規則：2小節或4小節
+    let userSelections = new Set(); // 記錄玩家在哪個小節後點擊了
 
-    // 模擬一段旋律的音符序列
-    const melody = [
-        TYPE.SHORT, TYPE.SHORT, TYPE.SHORT, TYPE.LONG, // 第一句結束
-        TYPE.SHORT, TYPE.SHORT, TYPE.SHORT, TYPE.LONG, // 第二句結束
-        TYPE.SHORT, TYPE.SHORT, TYPE.SHORT, TYPE.REST  // 第三句結束
-    ];
+    // 初始化題目
+    function initGame() {
+        scoreContainer.innerHTML = '';
+        userSelections.clear();
+        resultMsg.innerText = '';
+        document.getElementById('next-btn').style.display = 'none';
+        document.getElementById('check-btn').style.display = 'block';
 
-    let posX = window.innerWidth;
-    let notesData = [];
+        // 隨機決定是 2 小節分句還是 4 小節分句
+        targetRule = Math.random() > 0.5 ? 2 : 4;
+        const beat = Math.random() > 0.5 ? 2 : 3;
 
-    // 初始化音符
-    function initNotes() {
-        let spacing = 100;
-        melody.forEach((type, i) => {
-            const n = document.createElement('div');
-            n.className = 'note';
+        beatTypeEl.innerText = beat;
+        ruleTypeEl.innerText = targetRule;
+
+        // 生成 8 小節
+        for (let i = 1; i <= 8; i++) {
+            const m = document.createElement('div');
+            m.className = 'measure';
+            m.innerHTML = `<span class="measure-num">${i}</span>` + (beat === 2 ? '♩♩' : '♩♩♩');
             
-            // 視覺區分：二年級學生對形狀很敏感
-            if (type === TYPE.LONG) {
-                n.innerHTML = '⚪'; // 空心代表長音
-                n.style.color = '#2196F3';
-            } else if (type === TYPE.REST) {
-                n.innerHTML = '⚡'; // 閃電代表休止符
-                n.style.color = '#9c27b0';
-            } else {
-                n.innerHTML = '⚫'; // 實心代表短音
-                n.style.color = '#333';
-            }
-
-            n.style.left = (i * spacing) + 'px';
-            n.style.top = '100px';
-            stream.appendChild(n);
-            notesData.push({ el: n, x: i * spacing, type: type });
-        });
-    }
-
-    function animate() {
-        posX -= 2.5; // 移動速度
-        stream.style.transform = `translateX(${posX}px)`;
-
-        if (posX < -1500) posX = window.innerWidth;
-        requestAnimationFrame(animate);
-    }
-
-    document.getElementById('btn-cut').addEventListener('click', () => {
-        let hit = false;
-        
-        notesData.forEach(n => {
-            const currentX = posX + n.x;
-            const dist = Math.abs(currentX - 150); // 150 是剪刀位置
-
-            if (dist < 40 && (n.type === TYPE.LONG || n.type === TYPE.REST)) {
-                hit = true;
-                createBalloon(currentX);
-            }
-        });
-
-        if (hit) {
-            console.log("分句成功！");
+            // 點擊小節代表在該小節末尾「斷句」
+            m.onclick = () => togglePhrase(i, m);
+            scoreContainer.appendChild(m);
         }
-    });
-
-    function createBalloon(x) {
-        const b = document.createElement('div');
-        b.className = 'balloon';
-        b.innerText = '🎈';
-        b.style.left = '150px';
-        b.style.top = '100px';
-        document.getElementById('staff').appendChild(b);
-        setTimeout(() => b.remove(), 1500);
     }
 
-    initNotes();
-    animate();
+    function togglePhrase(index, element) {
+        if (userSelections.has(index)) {
+            userSelections.delete(index);
+            element.style.backgroundColor = 'white';
+            // 移除該小節上的彩虹線
+            const arc = element.querySelector('.phrase-arc');
+            if (arc) arc.remove();
+        } else {
+            userSelections.add(index);
+            element.style.backgroundColor = '#e8f5e9';
+            
+            // 畫出彩虹線（從當前小節往前跨越 targetRule 小節）
+            const arc = document.createElement('div');
+            arc.className = 'phrase-arc';
+            // 簡單計算位置：寬度等於小節寬度 * 規則
+            const widthPercentage = 100 * targetRule;
+            arc.style.width = `calc(${widthPercentage}% - 10px)`;
+            arc.style.right = '0';
+            element.appendChild(arc);
+        }
+    }
+
+    function checkAnswers() {
+        let isCorrect = true;
+        const correctAnswers = targetRule === 2 ? [2, 4, 6, 8] : [4, 8];
+
+        // 檢查數量是否正確
+        if (userSelections.size !== correctAnswers.length) {
+            isCorrect = false;
+        } else {
+            // 檢查位置是否正確
+            correctAnswers.forEach(num => {
+                if (!userSelections.has(num)) isCorrect = false;
+            });
+        }
+
+        if (isCorrect) {
+            resultMsg.innerText = "🌟 太聰明了！分句完全正確！";
+            resultMsg.style.color = "var(--success)";
+            document.getElementById('check-btn').style.display = 'none';
+            document.getElementById('next-btn').style.display = 'block';
+        } else {
+            resultMsg.innerText = "❌ 哎呀，再想一下，在哪裡換氣才對呢？";
+            resultMsg.style.color = "var(--error)";
+        }
+    }
+
+    // 啟動遊戲
+    initGame();
 </script>
 </body>
 </html>

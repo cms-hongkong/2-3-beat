@@ -3,212 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>彩虹分句畫家</title>
+    <title>小音樂家分句大冒險</title>
     <style>
+        :root {
+            --sky-blue: #e1f5fe;
+            --note-color: #333;
+            --rainbow: linear-gradient(to right, #ff5252, #ffeb3b, #4caf50, #2196f3, #9c27b0);
+        }
+
         body {
             margin: 0;
-            background: #e3f2fd; /* 天藍色背景，參考課本 */
-            font-family: 'Microsoft JhengHei', sans-serif;
+            background-color: var(--sky-blue);
+            font-family: 'PingFang HK', 'Microsoft JhengHei', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
         }
 
-        #task-area {
+        #task-header {
             background: white;
-            padding: 15px 30px;
-            border-radius: 50px;
+            padding: 20px 40px;
             margin: 20px;
+            border-radius: 30px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border: 3px solid #ffca28;
             text-align: center;
+            border: 4px solid #81d4fa;
         }
 
-        .task-title { font-size: 1.5rem; color: #1565c0; }
-        .target { font-size: 2rem; color: #e91e63; font-weight: bold; }
+        .task-msg { font-size: 1.6rem; color: #0277bd; }
+        .highlight { color: #e91e63; font-size: 2.2rem; font-weight: bold; }
 
-        /* 樂譜區 */
-        #stave-container {
+        /* 樂曲區域 */
+        #music-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
             width: 90vw;
-            max-width: 900px;
+            max-width: 950px;
             margin-top: 60px;
-            gap: 0;
-            position: relative;
         }
 
-        .bar {
+        .measure-box {
             height: 120px;
             background: white;
-            border-right: 2px solid #333;
-            border-bottom: 2px solid #333;
-            border-top: 2px solid #333;
+            border: 3px solid #b0bec5;
+            border-radius: 15px;
             position: relative;
             display: flex;
             align-items: center;
-            justify-content: space-around;
+            justify-content: center;
             cursor: pointer;
+            transition: all 0.2s;
         }
-        
-        /* 繪製五線譜線條 */
-        .bar::before {
-            content: '';
+
+        .measure-box:hover { background: #f1f8ff; border-color: #4fc3f7; }
+
+        .measure-id {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px);
-            background-size: 100% 20px;
-            top: 0; left: 0;
+            top: -20px;
+            left: 5px;
+            font-size: 14px;
+            color: #78909c;
         }
 
-        .bar:first-child { border-left: 4px solid #333; }
-        .bar:nth-child(4) { border-right: 4px solid #333; }
-        .bar:nth-child(5) { border-left: 4px solid #333; margin-top: 40px; }
-        .bar:nth-child(8) { border-right: 4px solid #333; margin-top: 40px; }
+        /* 音符顯示 */
+        .notes-display {
+            font-size: 45px;
+            letter-spacing: 5px;
+            color: var(--note-color);
+            display: flex;
+            align-items: center;
+        }
 
-        .bar-num { position: absolute; top: -25px; left: 5px; color: #777; font-size: 14px; }
-
-        /* 彩虹弧線 (教科書風格) */
+        /* 彩虹分句線 (參考課本設計) */
         .rainbow-arc {
             position: absolute;
-            top: -60px;
+            top: -65px;
             height: 80px;
             border: 6px solid;
-            border-image: linear-gradient(to right, red, orange, yellow, green, cyan, blue, purple) 1;
+            border-image: var(--rainbow) 1;
             border-bottom: none;
-            border-radius: 100px 100px 0 0;
+            border-radius: 150px 150px 0 0;
             pointer-events: none;
             z-index: 10;
         }
 
-        /* 小鳥提示 (換氣位) */
-        .bird-hint {
+        /* 換氣小鳥 (參考課本圖片) */
+        .bird-icon {
             position: absolute;
-            right: -20px;
-            top: -40px;
-            font-size: 30px;
-            z-index: 15;
+            right: -25px;
+            top: -45px;
+            font-size: 35px;
+            z-index: 11;
         }
 
-        /* 音符 */
-        .note { font-size: 40px; color: #333; z-index: 5; }
-
-        /* 按鈕區 */
-        #control-panel { margin-top: 50px; }
+        #control-area { margin: 40px 0; display: flex; flex-direction: column; align-items: center; }
         .btn {
-            padding: 15px 40px;
-            font-size: 1.5rem;
-            border-radius: 30px;
+            padding: 15px 50px;
+            font-size: 1.8rem;
+            border-radius: 50px;
             border: none;
             cursor: pointer;
-            box-shadow: 0 4px 0 #999;
+            font-weight: bold;
+            box-shadow: 0 6px 0 #999;
         }
-        #check-btn { background: #ffca28; color: #5d4037; }
-        #next-btn { background: #4caf50; color: white; display: none; }
-        
-        #result { margin-top: 20px; font-size: 1.5rem; font-weight: bold; }
+        #check-btn { background: #ffca28; color: #5d4037; box-shadow: 0 6px 0 #ffa000; }
+        #next-btn { background: #66bb6a; color: white; box-shadow: 0 6px 0 #388e3c; display: none; }
+        #feedback { margin-bottom: 20px; font-size: 1.5rem; font-weight: bold; height: 30px; }
     </style>
 </head>
 <body>
 
-<div id="task-area">
-    <div class="task-title">
-        這首曲子是 <span id="beat-info" class="target">?</span> 拍子<br>
-        請每 <span id="phrase-info" class="target">?</span> 小節畫一條「分句線」🌈
+<div id="task-header">
+    <div class="task-msg">
+        這首曲子是 <span id="beat-num" class="highlight">?</span> 拍子<br>
+        請每 <span id="phrase-rule" class="highlight">?</span> 小節畫一條「分句線」🌈
     </div>
 </div>
 
-<div id="stave-container"></div>
+<div id="music-grid"></div>
 
-<div id="control-panel">
-    <div id="result"></div>
-    <button id="check-btn" class="btn" onclick="validate()">我畫好分句了！</button>
-    <button id="next-btn" class="btn" onclick="init()">下一題</button>
+<div id="control-area">
+    <div id="feedback"></div>
+    <button id="check-btn" class="btn" onclick="validate()">完成分句！</button>
+    <button id="next-btn" class="btn" onclick="initGame()">下一題</button>
 </div>
 
 <script>
-    let beatType = 2;
-    let phraseRule = 2;
-    let selectedBars = new Set();
+    // 節奏庫：提供不同的音符組合
+    const RHYTHM_BANK = {
+        2: ['♩♩', '♫♩', '♩♫', '𝅗𝅥'], 
+        3: ['♩♩♩', '♫♩♩', '♩♫♩', '♩𝅗𝅥']
+    };
 
-    function init() {
-        const container = document.getElementById('stave-container');
-        container.innerHTML = '';
-        selectedBars.clear();
-        document.getElementById('result').innerText = '';
+    let targetBeat = 2;
+    let targetPhrase = 2;
+    let userSelections = new Set();
+
+    function initGame() {
+        const grid = document.getElementById('music-grid');
+        grid.innerHTML = '';
+        userSelections.clear();
+        document.getElementById('feedback').innerText = '';
         document.getElementById('next-btn').style.display = 'none';
         document.getElementById('check-btn').style.display = 'block';
 
-        // 題目設置
-        beatType = Math.random() > 0.5 ? 2 : 3;
-        phraseRule = Math.random() > 0.5 ? 2 : 4;
-        document.getElementById('beat-info').innerText = beatType;
-        document.getElementById('phrase-info').innerText = phraseRule;
+        // 隨機生成題目
+        targetBeat = Math.random() > 0.5 ? 2 : 3;
+        targetPhrase = Math.random() > 0.5 ? 2 : 4;
 
+        document.getElementById('beat-num').innerText = targetBeat;
+        document.getElementById('phrase-rule').innerText = targetPhrase;
+
+        // 生成 8 小節
         for (let i = 1; i <= 8; i++) {
-            const bar = document.createElement('div');
-            bar.className = 'bar';
-            bar.innerHTML = `<span class="bar-num">${i}</span>`;
+            const box = document.createElement('div');
+            box.className = 'measure-box';
             
-            // 加入音符 (教科書風格的實心音符)
-            for(let j=0; j<beatType; j++) {
-                const n = document.createElement('span');
-                n.className = 'note';
-                n.innerText = '♩';
-                bar.appendChild(n);
-            }
-
-            bar.onclick = () => toggleArc(i, bar);
-            container.appendChild(bar);
+            // 隨機選取該拍子下的一個組合
+            const rhythm = RHYTHM_BANK[targetBeat][Math.floor(Math.random() * RHYTHM_BANK[targetBeat].length)];
+            
+            box.innerHTML = `
+                <span class="measure-id">${i}</span>
+                <div class="notes-display">${rhythm}</div>
+            `;
+            
+            box.onclick = () => togglePhrase(i, box);
+            grid.appendChild(box);
         }
     }
 
-    function toggleArc(num, el) {
-        if (selectedBars.has(num)) {
-            selectedBars.delete(num);
-            const oldArc = el.querySelector('.rainbow-arc');
-            const oldBird = el.querySelector('.bird-hint');
-            if (oldArc) oldArc.remove();
-            if (oldBird) oldBird.remove();
+    function togglePhrase(num, el) {
+        if (userSelections.has(num)) {
+            userSelections.delete(num);
+            const arc = el.querySelector('.rainbow-arc');
+            const bird = el.querySelector('.bird-icon');
+            if (arc) arc.remove();
+            if (bird) bird.remove();
         } else {
-            selectedBars.add(num);
-            // 創建彩虹弧線
+            userSelections.add(num);
+            // 畫出彩虹線，寬度跨越設定的小節數量
             const arc = document.createElement('div');
             arc.className = 'rainbow-arc';
-            // 寬度計算：根據分句規則跨越小節
-            arc.style.width = `calc(${100 * phraseRule}% - 10px)`;
-            arc.style.right = '0';
+            arc.style.width = `calc(${targetPhrase * 100}% + ${(targetPhrase - 1) * 15}px)`;
+            arc.style.right = '-3px';
             el.appendChild(arc);
 
-            // 創建換氣小鳥 (參考課本第13及15頁)
+            // 加入呼吸小鳥提示
             const bird = document.createElement('div');
-            bird.className = 'bird-hint';
+            bird.className = 'bird-icon';
             bird.innerText = '🐦';
             el.appendChild(bird);
         }
     }
 
     function validate() {
-        let corrects = [];
-        for (let i = phraseRule; i <= 8; i += phraseRule) corrects.push(i);
+        let correctAnswers = [];
+        for (let i = targetPhrase; i <= 8; i += targetPhrase) correctAnswers.push(i);
 
-        const isWin = selectedBars.size === corrects.length && 
-                      corrects.every(v => selectedBars.has(v));
+        const isCorrect = userSelections.size === correctAnswers.length && 
+                          correctAnswers.every(v => userSelections.has(v));
 
-        const res = document.getElementById('result');
-        if (isWin) {
-            res.innerText = "🌟 畫得太棒了！就像課本一樣準確！";
-            res.style.color = "#2e7d32";
+        const feedback = document.getElementById('feedback');
+        if (isCorrect) {
+            feedback.innerText = "🌟 太準確了！你是分句小專家！";
+            feedback.style.color = "#2e7d32";
             document.getElementById('check-btn').style.display = 'none';
             document.getElementById('next-btn').style.display = 'block';
         } else {
-            res.innerText = "❌ 弧線的位置好像不太對，再數數看？";
-            res.style.color = "#d32f2f";
+            feedback.innerText = "❌ 弧線位置不對喔，再數數看音符？";
+            feedback.style.color = "#d32f2f";
         }
     }
 
-    init();
+    initGame();
 </script>
 </body>
 </html>

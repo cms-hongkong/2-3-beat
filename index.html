@@ -2,178 +2,265 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>2-3 Beat | Visual Trainer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>彩虹分句小老師 | 音樂遊戲</title>
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #05050a;
-            --lane2: #00d2ff;
-            --lane3: #ff007b;
-            --grid-opacity: 0.15;
+            --primary: #ffeb3b;
+            --btn-color: #ff5722;
+            --bg-sky: #e3f2fd;
         }
 
-        body, html { margin: 0; padding: 0; height: 100%; background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
-
-        /* 遊戲主舞台 */
-        #stage {
+        body {
+            margin: 0;
+            font-family: 'ZCOOL KuaiLe', 'Microsoft JhengHei', sans-serif;
+            background-color: var(--bg-sky);
             display: flex;
-            width: 100%;
+            flex-direction: column;
+            align-items: center;
             height: 100vh;
-            position: relative;
+            overflow: hidden;
+            user-select: none;
         }
 
-        /* 軌道通用樣式 */
-        .lane {
-            flex: 1;
+        /* 頂部資訊 */
+        #header {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        h1 { color: #1565c0; font-size: 2.5rem; margin-bottom: 5px; }
+        p { color: #546e7a; font-size: 1.2rem; }
+
+        /* 遊戲舞台 */
+        #game-stage {
+            flex-grow: 1;
+            width: 90%;
+            max-width: 800px;
             position: relative;
-            border: 1px solid rgba(255,255,255,0.1);
+            background: white;
+            border-radius: 30px;
+            margin: 20px 0;
+            border: 8px solid #90caf9;
+            box-shadow: 0 10px 0 #64b5f6;
             overflow: hidden;
         }
 
-        /* 2 拍背景網格：每 50% 一條線 */
-        #lane-2 {
-            background-image: linear-gradient(rgba(0,210,255, var(--grid-opacity)) 2px, transparent 2px);
-            background-size: 100% 50%; /* 視覺上分成兩份 */
-        }
-
-        /* 3 拍背景網格：每 33.3% 一條線 */
-        #lane-3 {
-            background-image: linear-gradient(rgba(255,0,123, var(--grid-opacity)) 2px, transparent 2px);
-            background-size: 100% 33.33%; /* 視覺上分成三份 */
-        }
-
-        /* 判定線 */
-        .judge-line {
+        /* 彩虹畫布 */
+        canvas {
             position: absolute;
-            bottom: 80px;
-            width: 100%;
-            height: 4px;
-            background: white;
-            box-shadow: 0 0 15px white;
-            z-index: 10;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
         }
 
-        /* 音符樣式 */
-        .note {
+        /* 歌詞文字 */
+        #lyrics-container {
             position: absolute;
-            width: 90%;
-            left: 5%;
-            height: 15px;
-            border-radius: 4px;
-            transition: transform 0.016s linear;
-        }
-        .note-2 { background: var(--lane2); box-shadow: 0 0 10px var(--lane2); }
-        .note-3 { background: var(--lane3); box-shadow: 0 0 10px var(--lane3); }
-
-        /* 標籤 */
-        .lane-label {
-            position: absolute;
-            top: 20px;
+            bottom: 30%;
             width: 100%;
             text-align: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-shadow: 0 0 10px black;
-            z-index: 5;
+            font-size: 2rem;
+            color: #333;
+            transition: 0.3s;
         }
 
         /* 控制區域 */
         #controls {
-            position: absolute;
-            bottom: 0;
+            padding-bottom: 40px;
             width: 100%;
-            height: 80px;
             display: flex;
-            background: rgba(0,0,0,0.8);
-            z-index: 20;
-        }
-        .hit-zone {
-            flex: 1;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            font-weight: bold;
-            border-top: 2px solid #333;
+            gap: 20px;
         }
+
+        .main-btn {
+            padding: 20px 60px;
+            font-size: 1.8rem;
+            font-family: 'ZCOOL KuaiLe', sans-serif;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+
+        #phrase-btn {
+            background-color: var(--btn-color);
+            color: white;
+            box-shadow: 0 8px 0 #bf360c;
+        }
+
+        #phrase-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 #bf360c;
+        }
+
+        #start-btn {
+            background-color: #4caf50;
+            color: white;
+            box-shadow: 0 8px 0 #2e7d32;
+        }
+
+        /* 特效 */
+        .feedback {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: 0.5s;
+        }
+
+        .show-feedback { opacity: 1; transform: translateX(-50%) translateY(-20px); }
     </style>
 </head>
 <body>
 
-<div id="stage">
-    <div class="lane" id="lane-2">
-        <div class="lane-label" style="color: var(--lane2)">BINARY (1 - 2)</div>
-        <div class="judge-line"></div>
-        <div id="notes-2"></div>
-    </div>
+<div id="header">
+    <h1>🌈 彩虹分句師 🌈</h1>
+    <p>聽聽音樂，唱完一句時請按下「換氣！」</p>
+</div>
 
-    <div class="lane" id="lane-3">
-        <div class="lane-label" style="color: var(--lane3)">TERNARY (1 - 2 - 3)</div>
-        <div class="judge-line"></div>
-        <div id="notes-3"></div>
-    </div>
+<div id="game-stage">
+    <canvas id="rainbowCanvas"></canvas>
+    <div id="feedback" class="feedback">🌟 太棒了！ 🌟</div>
+    <div id="lyrics-container">準備好點擊開始了嗎？</div>
+</div>
 
-    <div id="controls">
-        <div class="hit-zone">按 [F] 鍵</div>
-        <div class="hit-zone">按 [J] 鍵</div>
-    </div>
+<div id="controls">
+    <button id="start-btn" class="main-btn" onclick="startGame()">▶️ 開始遊戲</button>
+    <button id="phrase-btn" class="main-btn" onclick="checkPhrase()" style="display:none;">🌬️ 換氣！</button>
 </div>
 
 <script>
-    const CONFIG = {
-        speed: 4,        // 像素/幀
-        loopHeight: 600, // 一個完整小節的高度
-    };
+    const canvas = document.getElementById('rainbowCanvas');
+    const ctx = canvas.getContext('2d');
+    const lyricsEl = document.getElementById('lyrics-container');
+    const feedbackEl = document.getElementById('feedback');
+    const phraseBtn = document.getElementById('phrase-btn');
+    const startBtn = document.getElementById('start-btn');
 
-    let state = {
-        notes: [],
-        frame: 0
-    };
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
 
-    function spawnNotes() {
-        const notes2 = document.getElementById('notes-2');
-        const notes3 = document.getElementById('notes-3');
+    // 二年級教材常見歌曲：《小星星》
+    const songData = [
+        { time: 4, text: "一閃一閃亮晶晶" },
+        { time: 8, text: "滿天都是小星星" },
+        { time: 12, text: "放在天空放光明" },
+        { time: 16, text: "好像許多小眼睛" }
+    ];
 
-        // 每 600 像素為一個大循環（1小節）
-        // 生成 2 拍音符：位於 0% 和 50% 的位置
-        [0, 300].forEach(y => {
-            createNote(notes2, y, 'note-2');
-        });
+    let currentPhrase = 0;
+    let startTime = 0;
+    let isPlaying = false;
+    let rainbowStep = 0;
 
-        // 生成 3 拍音符：位於 0%, 200%, 400% 的位置
-        [0, 200, 400].forEach(y => {
-            createNote(notes3, y, 'note-3');
-        });
-    }
-
-    function createNote(parent, y, className) {
-        const el = document.createElement('div');
-        el.className = `note ${className}`;
-        parent.appendChild(el);
-        state.notes.push({
-            el: el,
-            y: -y, // 從上方負值開始
-            active: true
-        });
-    }
-
-    function update() {
-        state.notes.forEach((note, index) => {
-            note.y += CONFIG.speed;
-            note.el.style.transform = `translateY(${note.y}px)`;
-
-            // 循環邏輯：如果音符跑出底端，重新回到頂端（形成無窮盡的練習流）
-            if (note.y > window.innerHeight) {
-                note.y = -CONFIG.loopHeight + (note.y - window.innerHeight);
-            }
-        });
-
+    function startGame() {
+        isPlaying = true;
+        currentPhrase = 0;
+        startTime = performance.now();
+        startBtn.style.display = 'none';
+        phraseBtn.style.display = 'block';
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        lyricsEl.innerText = songData[0].text;
         requestAnimationFrame(update);
+        playNote(261.63, 0.5); // 模擬啟動音
     }
 
-    // 初始化
-    spawnNotes();
-    update();
+    function update(timestamp) {
+        if (!isPlaying) return;
 
+        const elapsed = (timestamp - startTime) / 1000;
+
+        // 更新歌詞
+        if (currentPhrase < songData.length && elapsed > songData[currentPhrase].time - 0.5) {
+            // 等待玩家點擊，文字變色提醒
+            lyricsEl.style.color = "#ff5722";
+        }
+
+        // 自動失敗判定（如果超過時間太久沒按）
+        if (currentPhrase < songData.length && elapsed > songData[currentPhrase].time + 1.5) {
+            nextPhrase(false);
+        }
+
+        if (currentPhrase < songData.length) {
+            requestAnimationFrame(update);
+        } else {
+            endGame();
+        }
+    }
+
+    function checkPhrase() {
+        const elapsed = (performance.now() - startTime) / 1000;
+        const target = songData[currentPhrase].time;
+
+        if (Math.abs(elapsed - target) < 1.0) {
+            showFeedback(true);
+            drawRainbowPart(currentPhrase);
+            nextPhrase(true);
+        } else {
+            showFeedback(false);
+        }
+    }
+
+    function nextPhrase(success) {
+        currentPhrase++;
+        if (currentPhrase < songData.length) {
+            lyricsEl.innerText = songData[currentPhrase].text;
+            lyricsEl.style.color = "#333";
+        }
+    }
+
+    function drawRainbowPart(index) {
+        const colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#9400D3'];
+        const segmentWidth = canvas.width / songData.length;
+        const startX = index * segmentWidth + 50;
+        const endX = (index + 1) * segmentWidth - 50;
+        const centerY = canvas.height / 2;
+
+        ctx.lineWidth = 10;
+        colors.forEach((color, i) => {
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.arc((startX + endX) / 2, centerY, (endX - startX) / 2, Math.PI, 0);
+            ctx.stroke();
+            ctx.translate(0, 5); // 讓彩虹有層次
+        });
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+    }
+
+    function showFeedback(isGood) {
+        feedbackEl.innerText = isGood ? "🌟 太棒了！ 🌟" : "⚠️ 還沒唱完喔 ⚠️";
+        feedbackEl.style.color = isGood ? "#4caf50" : "#f44336";
+        feedbackEl.classList.add('show-feedback');
+        setTimeout(() => feedbackEl.classList.remove('show-feedback'), 1000);
+    }
+
+    function endGame() {
+        isPlaying = false;
+        lyricsEl.innerText = "🎉 恭喜完成！你是彩虹分句大師！";
+        startBtn.innerText = "再玩一次";
+        startBtn.style.display = 'block';
+        phraseBtn.style.display = 'none';
+    }
+
+    // 簡單的音頻合成器發聲
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playNote(freq, duration) {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.frequency.value = freq;
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.stop(audioCtx.currentTime + duration);
+    }
 </script>
+
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>音符分句大師 - 小節線版</title>
+    <title>音符分句大師 - 樂譜練習版</title>
     <style>
         :root {
             --sky-blue: #f0faff;
@@ -21,6 +21,7 @@
             min-height: 100vh;
         }
 
+        /* 題目資訊 */
         #task-info {
             background: white;
             padding: 20px 40px;
@@ -43,8 +44,6 @@
             margin-top: 80px;
             padding: 20px 0;
             position: relative;
-            background: rgba(255,255,255,0.4);
-            border-radius: 10px;
         }
 
         .measure {
@@ -54,30 +53,22 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* 小節線設計 */
-            border-right: 2px solid var(--bar-line);
+            border-right: 2px solid var(--bar-line); /* 單小節線 */
             cursor: pointer;
         }
 
-        /* 樂曲開頭的雙線 */
-        .measure:first-child { border-left: 4px double var(--bar-line); }
+        /* 開頭與結尾的特殊處理 */
+        .measure:first-child { border-left: 2px solid var(--bar-line); }
+        .measure:last-child { border-right: 6px double var(--bar-line); } /* 結尾雙小節線 */
 
-        .measure-num {
-            position: absolute;
-            top: -25px;
-            left: 5px;
-            font-size: 12px;
-            color: #999;
-        }
-
-        /* 音符顯示 */
+        /* 音符樣式 */
         .notes {
-            font-size: 40px;
+            font-size: 45px;
             letter-spacing: 4px;
             color: #333;
         }
 
-        /* 彩虹弧線 (跨越小節) */
+        /* 彩虹弧線 */
         .phrase-arc {
             position: absolute;
             top: -60px;
@@ -90,7 +81,7 @@
             z-index: 10;
         }
 
-        /* 呼吸小鳥 (換氣標記) */
+        /* 呼吸小鳥 */
         .breath-bird {
             position: absolute;
             right: -15px;
@@ -99,6 +90,7 @@
             z-index: 15;
         }
 
+        /* 控制區 */
         #control-panel { margin-top: 60px; text-align: center; }
         .btn {
             padding: 12px 40px;
@@ -117,8 +109,8 @@
 
 <div id="task-info">
     <div class="task-msg">
-        觀察音符：這是 <span id="beat-display" class="highlight">?</span> 拍子<br>
-        分句挑戰：請每 <span id="rule-display" class="highlight">?</span> 小節畫一條「分句線」🌈
+        這是 <span id="beat-display" class="highlight">?</span> 拍子的歌<br>
+        請每 <span id="rule-display" class="highlight">?</span> 小節畫一條「分句線」🌈
     </div>
 </div>
 
@@ -126,12 +118,12 @@
 
 <div id="control-panel">
     <div id="feedback"></div>
-    <button id="check-btn" class="btn" onclick="verify()">檢查答案</button>
+    <button id="check-btn" class="btn" onclick="verify()">檢查分句</button>
     <button id="next-btn" class="btn" onclick="setup()">下一題</button>
 </div>
 
 <script>
-    // 定義多樣化的音符組合
+    // 根據教科書設計多樣化音符
     const PATTERNS = {
         2: ['♩♩', '♫♩', '♩♫', '𝅗𝅥'],
         3: ['♩♩♩', '♫♩♩', '♩♫♩', '♩𝅗𝅥', '𝅗𝅥♩']
@@ -156,21 +148,17 @@
         document.getElementById('beat-display').innerText = currentBeat;
         document.getElementById('rule-display').innerText = currentRule;
 
-        // 生成 8 小節樂譜
+        // 生成 8 小節
         for (let i = 1; i <= 8; i++) {
             const m = document.createElement('div');
             m.className = 'measure';
             
-            // 隨機挑選音符組合
             const pool = PATTERNS[currentBeat];
             const notesText = pool[Math.floor(Math.random() * pool.length)];
             
-            m.innerHTML = `
-                <span class="measure-num">${i}</span>
-                <span class="notes">${notesText}</span>
-            `;
+            m.innerHTML = `<span class="notes">${notesText}</span>`;
             
-            // 點擊小節線位置
+            // 點擊事件：切換分句線
             m.onclick = () => handlePhrase(i, m);
             line.appendChild(m);
         }
@@ -186,14 +174,14 @@
         } else {
             selectedPositions.add(index);
             
-            // 創建彩虹弧線：寬度根據規則跨越
+            // 創建彩虹弧線，寬度跨越設定的小節數量
             const arc = document.createElement('div');
             arc.className = 'phrase-arc';
             arc.style.width = `calc(${currentRule * 100}% + 4px)`;
-            arc.style.right = '-2px'; // 對準小節線
+            arc.style.right = '-2px'; 
             element.appendChild(arc);
 
-            // 創建小鳥標記 (換氣點)
+            // 創建小鳥標記 (換氣提示)
             const bird = document.createElement('div');
             bird.className = 'breath-bird';
             bird.innerText = '🐦';
@@ -210,12 +198,12 @@
 
         const fb = document.getElementById('feedback');
         if (win) {
-            fb.innerText = "🌟 太棒了！你的分句非常準確！";
+            fb.innerText = "🌟 畫得太棒了！分句完全正確！";
             fb.style.color = "#2e7d32";
             document.getElementById('check-btn').style.display = 'none';
             document.getElementById('next-btn').style.display = 'inline-block';
         } else {
-            fb.innerText = "❌ 弧線位置好像不對，再數數看小節線？";
+            fb.innerText = "❌ 弧線位置好像不對，再數數看？";
             fb.style.color = "#d32f2f";
         }
     }

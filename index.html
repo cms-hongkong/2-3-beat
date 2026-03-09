@@ -76,6 +76,7 @@
             color: #333;
         }
 
+        /* 最初的 Phrasing 樣式 */
         .phrase-arc {
             position: absolute;
             top: -60px;
@@ -128,7 +129,7 @@
 <div id="task-info">
     <div class="task-msg">
         這是 <span id="beat-display" class="highlight">?</span> 拍子的歌<br>
-        請每 <span id="rule-display" class="highlight">?</span> 小節畫一條「分句線」🌈
+        請每 <span id="rule-display" class="highlight">?</span> 小節做一次標記 🌈
     </div>
 </div>
 
@@ -163,7 +164,6 @@
         document.getElementById('check-btn').style.display = 'inline-block';
         document.getElementById('current-q').innerText = questionCount;
 
-        // 隨機題庫
         currentBeat = Math.random() > 0.5 ? 2 : 3;
         currentRule = Math.random() > 0.5 ? 2 : 4;
 
@@ -191,6 +191,7 @@
             selectedPositions.add(index);
             const arc = document.createElement('div');
             arc.className = 'phrase-arc';
+            // 回復最初的計算方式
             arc.style.width = `calc(${currentRule * 100}% + 4px)`;
             arc.style.right = '-2px'; 
             element.appendChild(arc);
@@ -218,13 +219,13 @@
                 document.getElementById('check-btn').style.display = 'none';
                 document.getElementById('restart-btn').style.display = 'inline-block';
             } else {
-                fb.innerText = "🌟 畫得太棒了！分句完全正確！";
+                fb.innerText = "🌟 做得太棒了！位置完全正確！";
                 fb.style.color = "#2e7d32";
                 document.getElementById('check-btn').style.display = 'none';
                 document.getElementById('next-btn').style.display = 'inline-block';
             }
         } else {
-            fb.innerText = "❌ 弧線位置好像不對，再數數看？";
+            fb.innerText = "❌ 位置好像不對，再數數看？";
             fb.style.color = "#d32f2f";
         }
     }
